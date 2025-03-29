@@ -58,3 +58,9 @@ $(document).ready(function() {
 }); 
 // jquery end
 
+setTimeout(function() {
+    // Hide the loader after 1 second
+    $('#message').fadeOut('slow')
+        
+    },4000);
+ 

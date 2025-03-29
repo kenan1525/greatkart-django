@@ -1,0 +1,33 @@
+
+  /* Jumbotron Stili */
+.jumbotron {
+    position: relative;
+    width: 100%; /* Yatayda tam genişlik */
+    height: 500px; /* Yüksekliği 500px yapalım */
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #ffccff, #cceeff); /* Açık pembe (ffccff) ve açık mavi (cceeff) geçişi */
+  }
+  
+
+  .jumbotron-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+    z-index: 1;
+  }
+  
+  .jumbotron-content h1 {
+    font-size: 3rem;
+  }
+  
+  .jumbotron-content p {
+    font-size: 1.25rem;
+  }
+  
+  .jumbotron-content .btn {
+    margin-top: 15px;
+  }
+  
