@@ -24,6 +24,24 @@ SECRET_KEY = '-gsuhlk5-7h_^ejssa5((1f+i3v9gq1$t$_javnqv&a(5x7_d9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 ALLOWED_HOSTS = []
 
@@ -155,3 +173,8 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_HOST_USER = 'allattinmehmet@gmail.com'
 EMAIL_HOST_PASSWORD = 'wcxd wura upvu olld'
+
+SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Oturumları veritabanında sakla
+SESSION_SAVE_EVERY_REQUEST = True  # Her istekte oturumun kaybolmasını engelle
+SESSION_COOKIE_AGE = 86400  # 24 saat boyunca oturumu sakla
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
