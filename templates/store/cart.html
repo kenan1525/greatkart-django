@@ -23,7 +23,7 @@
 <tr class="small text-uppercase">
   <th scope="col">Product</th>
   <th scope="col" width="120">Quantity</th>
-  <th scope="col" width="120">Price</th>
+  <th scope="col" width="120">Stok</th>
   <th scope="col" class="text-right" width="200"> </th>
 </tr>
 </thead>
@@ -57,8 +57,13 @@
 	</td>
 	<td> 
 		<div class="price-wrap"> 
-			<var class="price">{{cart_item.sub_total}}tl</var> 
-			<small class="text-muted"> {{cart_item.product.price}}tl each </small> 
+			<var class="price">
+			{% comment %} {{cart_item.sub_total}} {% endcomment %}
+			</var> 
+			<small class="text-muted">
+			Avilable
+			 {% comment %} {{cart_item.product.price}}  {% endcomment %}
+			 </small> 
 		</div> <!-- price-wrap .// -->
 	</td>
 	<td class="text-right"> 
@@ -76,13 +81,13 @@
 
 		<div class="card">
 		<div class="card-body">
-			<dl class="dlist-align">
+			{% comment %} <dl class="dlist-align">
 			  <dt>Total price:</dt>
 			  <dd class="text-right">{{total}}tl</dd>
 			</dl>
 			<dl class="dlist-align">
 			  <dt>Tax:</dt>
-			  <dd class="text-right"> {{tax}}tl</dd>
+			   <dd class="text-right"> {{tax}}</dd> {
 			</dl>
 			<dl class="dlist-align">
 			  <dt>Grand Total:</dt>
@@ -91,7 +96,7 @@
 			<hr>
 			<p class="text-center mb-3">
 				<img src="{% static './images/misc/payments.png' %}" height="26">
-			</p>
+			</p> {% endcomment %}
 			<a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Checkout </a>
 			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
 		</div> <!-- card-body.// -->

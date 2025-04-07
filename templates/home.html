@@ -4,70 +4,93 @@
 {% block content %}
 
 
-
-
-
-
-
-<!-- ========================= SECTION MAIN ========================= -->
-{% comment %} <section class="section-intro padding-y-sm">
-<div class="container">
-
-<div class="intro-banner-wrap">
-	<img src="{% static 'images/banners/1.jpg' %}" class="img-fluid rounded">
-</div>
-
-</div> <!-- container //  -->
-</section> {% endcomment %}
- {% comment %} <section class="section-intro padding-y-sm">
-  <div class="container">
-    <div class="intro-banner-wrap">
-      <img src="{% static 'images/banners/1.jpg' %}" class="img-fluid rounded banner-image" alt="Intro Banner">
-    </div>
-  </div>
-</section>  {% endcomment %}
-
 <section class="section-intro padding-y-sm">
-
   <div class="container">
-  
-    <div class="intro-banner-wrap jumbotron" style=" background: linear-gradient(to bottom right,rgb(250, 19, 127),rgb(148, 175, 202));">
-      {% comment %} <img src="{% static 'images/banners/3.jpg' %}" class="img-fluid rounded banner-image" alt="Intro Banner"> {% endcomment %}
-      <div class="jumbotron-content "  >
-        <h1 class="display-4" style="text-align:center; color:rgb(46, 44, 44);"><b>WELCOME TO DEVTÜRKS</b></h1><br>
-        <p class="lead" style="text-align:center;"><b>DEVTÜRKS is the first platform for G2G (Government to Government) and B2G (Business to Government) interactions and more</b></p>
- <a class="btn btn-primary btn-lg" 
-   href="{% url 'store' %}" 
-   role="button" 
-   style="display: block; text-align: right; width: 200px;">
-  LET’S BEGIN
-</a>
+    <div class="row">
+      <!-- Sol kısım (1/3) -->
+      <div class="col-md-4">
+        <div class="intro-banner-wrap jumbotron" style="background: linear-gradient(to bottom right, rgb(123, 125, 245), rgb(160, 228, 222)); height: 400px;">
+          <h4 style="color:rgb(20, 8, 8); text-align:center; margin-top: -35px;"><b>WELCOME TO DEVTÜRKS</b></h4>
+          <p class="lead" style="text-align:center;">DEVTÜRKS is the first platform for G2G (Government to Government) <br>and<br> B2G (Business to Government) interactions and more</p>
+          <p class="lead" style="text-align:center;">We are here to contribute to your cooperations</p>
+          <a class="btn btn-danger" href="{% url 'store' %}" role="button" style="position: absolute; bottom: 40px; right: 45px;">LET'S BEGIN</a>
+          <a class="btn btn-danger" href="{% url 'about' %}" role="button" style="position: absolute; bottom: 40px; left: 45px;">WE SUPPORTED BY</a>
+        </div>
+      </div>
 
-    </div>
+      <!-- Sağ kısım (2/3) Slider -->
+      <div class="col-md-8">
+        <div class="swiper-container" style="height: 400px;">
+          <div class="swiper-wrapper" style="height: 400px;">
+            <div class="swiper-slide" style="height: 400px;">
+              <img src="{% static 'images/items/21.jpg' %}" alt="Slide 1" style="height: 400px; width: 100%; object-fit: cover;">
+            </div>
+            <div class="swiper-slide">
+              <img src="{% static 'images/items/hürjet.webp' %}" alt="Slide 2" style="height: 400px; width: 100%; object-fit: cover;">
+            </div>
+            <div class="swiper-slide">
+              <img src="{% static 'images/items/kaan.jpeg' %}" alt="Slide 3" style="height: 400px; width: 100%; object-fit: cover;">
+            </div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="swiper-pagination"></div>
+
+          <!-- Navigation buttons -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+      </div>
+    </div> <!-- satırı kapatıyoruz -->
   </div>
 </section>
+
+
+<!-- Swiper.js Script -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,  // Görüntülenen slayt sayısı
+    spaceBetween: 10,   // Slaytlar arasındaki boşluk
+    navigation: {
+      nextEl: '.swiper-button-next',  // Sonraki buton
+      prevEl: '.swiper-button-prev',  // Önceki buton
+    },
+    pagination: {
+      el: '.swiper-pagination',  // Sayfalama
+      clickable: true,
+    },
+    loop: true,  // Döngü
+    autoplay: {
+      delay: 2500,  // Otomatik geçiş süresi
+      disableOnInteraction: false,  // Kullanıcı etkileşimi sonrası autoplay devam eder
+    },
+    speed: 3000,  // Geçiş hızı
+    effect: 'cube',  // Geçiş efekti (fade, slide, cube, coverflow, flip gibi seçenekler mevcut)
+  });
+</script>
+
+
+
+
+
 <!-- ========================= SECTION MAIN END// ========================= -->
 
-<!-- ========================= SECTION  ========================= -->
-<section class="section-name padding-y-sm">
+
 <div class="container">
-
-{% comment %} <header class="section-heading">
-	<a href="./store.html" class="btn btn-outline-primary float-right">See all</a>
-	<h3 class="section-title">Popular products</h3>
-</header><!-- sect-heading --> {% endcomment %}
-
-	
 <div class="row">
 {% for product in products  %}
 
 
-	<div class="col-md-3">
-		<div class="card card-product-grid">
-			<a href="{{ product.get_url }}" class="img-wrap">    <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid">  </a>
+	<div class="col-md-4">
+		<div class="card card-product-grid"  style="height: 350px; width: 100%; object-fit: cover;">
+			<a href="{{ product.get_url }}" class="img-wrap">    <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid" style="height: 100%; width: 100%; object-fit: cover;">  </a>
 			<figcaption class="info-wrap">
-				<a href="{{ product.get_url }}" class="title">{{product.product_name}}</a>
-				<div class="price mt-1">{{product.price}} tl</div> <!-- price-wrap.// -->
+				<h2><a href="{{ product.get_url }}" class="title">{{product.product_name}}</a></h2>
+				<div class="price mt-1">
+        
+        {% comment %} {{product.price}} {% endcomment %}
+         </div> <!-- price-wrap.// -->
 			</figcaption>
 		</div>
 	</div> <!-- col.// -->
@@ -85,6 +108,4 @@
 
 
 
-</body>
-</html>
 {% endblock content %}

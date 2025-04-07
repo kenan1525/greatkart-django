@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-gsuhlk5-7h_^ejssa5((1f+i3v9gq1$t$_javnqv&a(5x7_d9'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG',default=False, cast=bool)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -59,6 +60,9 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+    'orders',
+  
+   
 ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -130,9 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'tr-tr'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Istanbul'
 
 USE_I18N = True
 
@@ -145,13 +149,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR /'static'
+
+# Static dosyaların toplandığı ana klasör
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Ek static dosyalarının bulunduğu dizinler
 STATICFILES_DIRS = [
-    'greatkart/static',
+    BASE_DIR / 'static',  # 'static' dizini projenin içinde olmalı
 ]
 
-MEDIA_URL ='/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 from django.contrib.messages import constants as messages
 
@@ -159,20 +168,14 @@ MESSAGE_TAGS = {
     messages.ERROR: "danger",
    
 }
-# Email settings
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER='allattinmehmet@gmail.com'
-# EMAIL_HOST_PASSWORD='wcxdwuraupvuolld'
-# EMAIL_USE_TLS = True
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587 # SSL için 465
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = 'allattinmehmet@gmail.com'
-EMAIL_HOST_PASSWORD = 'wcxd wura upvu olld'
+
+EMAIL_BACKEND =config('EMAIL_BACKEND')
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config ('EMAIL_PORT', cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Oturumları veritabanında sakla
 SESSION_SAVE_EVERY_REQUEST = True  # Her istekte oturumun kaybolmasını engelle

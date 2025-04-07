@@ -14,6 +14,11 @@ class Product(models.Model):
     category =models.ForeignKey(Category,on_delete=models.CASCADE)
     created_date =models.DateTimeField(auto_now_add=True)
     modified_date =models.DateField(auto_now=True)
+    anasayfa=models.BooleanField(default=False)
+    seo_title=models.CharField(max_length=155,blank=True,null=True)
+    seo_description=models.TextField(blank=True,null=True)
+    
+
 
     def get_url(self):
         return reverse('product_detail',args=[self.category.slug,self.slug])
@@ -22,3 +27,14 @@ class Product(models.Model):
         return self.product_name
 
     
+class ProductGallery(models.Model):
+    product =models.ForeignKey(Product,on_delete=models.CASCADE)
+    image =models.ImageField(upload_to='photos/products',max_length=255)
+    
+
+    def __str__(self):
+        return self.product.product_name
+ 
+    class Meta:
+        verbose_name = 'productgallery'
+        verbose_name_plural = 'product gallery'
