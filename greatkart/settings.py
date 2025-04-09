@@ -11,9 +11,11 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import Config, Csv
+from decouple import config  
 
-config = Config() 
+
+
+
 
 # DATABASES = {
 #     'default': dj_database_url.config(
