@@ -85,7 +85,7 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
-    'whitenoise.runserver_nostatic',
+    
   
    
 ]
@@ -117,7 +117,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
                 'carts.context_processors.counter',
-                'whitenoise.middleware.WhiteNoiseMiddleware',
             ],
         },
     },
