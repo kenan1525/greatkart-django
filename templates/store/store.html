@@ -4,12 +4,15 @@
 {% block content %}
 <!-- ========================= SECTION PAGETOP ========================= -->
 
-<section class="section-pagetop bg">
+<section class="section-pagetop bg" style="height:150px;">
   <div class="container">
     {% if 'search' in request.path %}
       <h2 class="title-page">Search Result</h2>
     {% else %}
-      <h2 class="title-page">Our Store</h2>
+     <div class="intro-banner-wrap jumbotron" style="background: linear-gradient(to bottom right, rgb(248, 76, 119), rgb(156, 220, 236)); height: 100px;">
+          <h1 style="color:rgb(53, 55, 75); text-align:center; margin-top: -35px;"><b>DEVTÜRKS STORE</b></h1>
+          </div>
+    
     {% endif %}
   </div> <!-- container // -->
 </section>
@@ -22,9 +25,9 @@
     <div class="row">
       {% if products %}
         {% for product in products %}
-          <div class="col-6 col-md-3"> <!-- Mobilde 2 ürün, masaüstünde 4 ürün -->
+          <div class="col-6 col-md-4"> <!-- Mobilde 2 ürün, masaüstünde 4 ürün -->
             <figure class="card card-product-grid">
-              <div class="img-wrap">
+              <div class="img-wrap" style="height: 300px; width: 100%; object-fit: cover;">
                 <a href="{{ product.get_url }}"><img src="{{ product.images.url }}" alt="{{ product.product_name }}"></a>
               </div> <!-- img-wrap.// -->
               <figcaption class="info-wrap">
@@ -35,8 +38,8 @@
                   </div>
                 </div>
                 <div style="display">
-                  <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-primary">Add to cart </a>
-                  <a href="{{ product.get_url }}" class="btn btn-block btn-primary">View Detail </a>
+                  <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-danger">Add to cart </a>
+                  <a href="{{ product.get_url }}" class="btn btn-block btn-danger">View Detail </a>
                 </div>
               </figcaption>
             </figure>
@@ -80,4 +83,4 @@
   </div> <!-- container -->
 </section> <!-- section-content End -->
 
-{% endblock content %}
+{% endblock %}

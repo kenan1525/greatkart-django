@@ -13,14 +13,13 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
-import logging
 from django.db import transaction
 
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 def login_view(request):
-    print("🔍 Giriş yapmadan önceki cart_id:", request.session.get("cart_id"))
+    
     return render(request, "login.html")
 
 def register(request):
@@ -61,8 +60,6 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'accounts/register.html', {'form': form})
 
-logger = logging.getLogger(__name__)
-
 def user_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -74,31 +71,28 @@ def user_login(request):
         if user is not None:
             auth_login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 
-            # 🔹 Kullanıcı giriş yaptıktan sonra sepete eklenen ürünleri korur  
+            # Kullanıcı giriş yaptıktan sonra sepete eklenen ürünleri korur  
             merge_carts(request, user)
             
             # Kullanıcının yeni sepet ID'sini güncelle
             user_cart = Cart.objects.filter(user=user).first()
             if user_cart:
                 request.session['cart_id'] = str(user_cart.cart_id)
-                logger.info(f"🔄 Kullanıcı giriş yaptı, sepet ID güncellendi: {user_cart.cart_id}")
+                # Logger'ı kaldırdık, log yazılmayacak
+                # logger.info(f"🔄 Kullanıcı giriş yaptı, sepet ID güncellendi: {user_cart.cart_id}")
             else:
                 # Eğer kullanıcıda sepet yoksa yeni sepet oluşturulacak
-                logger.warning(f"Sepet bulunamadı: {user.email}")
+                # logger.warning(f"Sepet bulunamadı: {user.email}")
                 user_cart = Cart.objects.create(user=user)
                 request.session['cart_id'] = str(user_cart.cart_id)
-                logger.info(f"🛒 Yeni sepet oluşturuldu: {user_cart.cart_id}")
+                # logger.info(f"🛒 Yeni sepet oluşturuldu: {user_cart.cart_id}")
             
             return redirect('home')  # Kullanıcı giriş yaptıktan sonra anasayfaya yönlendir
-            
         else:
             messages.error(request, 'Geçersiz giriş bilgileri')
             return render(request, 'accounts/login.html', {'exception_notes': 'Geçersiz giriş'})
 
     return render(request, 'accounts/login.html')
-
-
-
 
 
 @login_required(login_url='login')
@@ -183,4 +177,3 @@ def resetPassword(request):
             return redirect('resetPassword')
     else:
         return render(request,'accounts/resetPassword.html')
-    

@@ -30,7 +30,7 @@
 		</aside>
 		<main class="col-md-6 border-left">
 
- {% comment %} SİZE VE YA RENK GİBİ SEÇENEKLERİNİZ VARSA BURAYA EKLEYEBİLİRSİNİZ {% endcomment %}
+ 
 		
 <article class="content-body">
 
@@ -58,7 +58,7 @@
 	{% else %}
 	
     
-	<a href="{% url 'add_cart' single_product.id %}" class="btn  btn-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
+	<a href="{% url 'add_cart' single_product.id %}" class="btn  btn-danger"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
 	{% endif %}
     {% endif %}
 </article> <!-- product-info-aside .// -->
@@ -70,36 +70,7 @@
 
 <br>
 
-{% comment %} <div class="row">
-			<div class="col-md-9">
 
-	<header class="section-heading">
-		<h3>Customer Reviews </h3>  
-		
-	</header>
-
-	<article class="box mb-3">
-		<div class="icontext w-100">
-				<h6 class="mb-1">Mike John </h6>
-				
-				<img src="{% static './images/avatars/avatar1.jpg' %}" class="img-xs icon rounded-circle">
-			<div class="text">
-				<span class="date text-muted float-md-right">24.04.2020 </span>  
-		</div>
-		</div> <!-- icontext.// -->
-		<div class="mt-3">
-			<p>
-				Dummy comment Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				quis nostrud exercitation ullamco laboris nisi ut aliquip
-			</p>	
-		</div>
-	</article>
-
-	
-
-	</div> <!-- col.// -->
-</div> <!-- row.// --> {% endcomment %}
 
 
 </div> <!-- container .//  -->

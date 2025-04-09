@@ -12,6 +12,20 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from decouple import config
+import dj_database_url
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default="postgresql://postgres:CBQaGWsjgaKYKODYqxnvlyeqeJDgVhYS@railway-public-db-url.com:5432/railway",
+        conn_max_age=600,
+        ssl_require=True,
+    )
+}
+
+
+
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -21,10 +35,12 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY ='-gsuhlk5-7h_^ejssa5((1f+i3v9gq1$t$_javnqv&a(5x7_d9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG',default=False, cast=bool)
+DEBUG = True
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -44,7 +60,10 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['postgres-production-5ad9.up.railway.app','https://postgres-production-5ad9.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['postgres-production-5ad9.up.railway.app','https://postgres-production-5ad9.up.railway.app']
+    
+
 
 
 # Application definition
@@ -61,6 +80,7 @@ INSTALLED_APPS = [
     'store',
     'carts',
     'orders',
+    'whitenoise.runserver_nostatic',
   
    
 ]
@@ -74,6 +94,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'greatkart.urls'
@@ -91,6 +112,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
                 'carts.context_processors.counter',
+                'whitenoise.middleware.WhiteNoiseMiddleware',
             ],
         },
     },
@@ -104,12 +126,23 @@ AUTH_USER_MODEL ='accounts.Account'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'mainline.proxy.rlwy.net',   # Public bağlantı için bu
+        'PORT': '33745',                     # Özel port (Railway'den)
+        'OPTIONS': {
+            'sslmode': 'require',            # SSL zorunlu Railway'de
+            'client_encoding': 'UTF8',       # UTF-8 hatasını önler
+        },
     }
 }
+
+
 
 
 # Password validation
@@ -157,6 +190,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',  # 'static' dizini projenin içinde olmalı
 ]
+
+# Whitenoise ayarları
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'

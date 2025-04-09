@@ -38,3 +38,19 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name = 'productgallery'
         verbose_name_plural = 'product gallery'
+
+
+
+
+class Slider(models.Model):
+    title = models.CharField(max_length=100, verbose_name='Başlık')
+    description = models.TextField(blank=True, verbose_name='Açıklama')
+    image = models.ImageField(upload_to='slider_images/', verbose_name='Görsel')
+    link = models.URLField(blank=True, null=True, verbose_name='Buton Linki')  # Opsiyonel buton linki
+    order = models.IntegerField(default=0, verbose_name='Sıra Numarası')  # Slider'lar sıralı olsun
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['order']  # Slider'lar sırasıyla listelenecek

@@ -15,10 +15,10 @@ from orders.forms import OrderForm
 
 
 
-def debug_cart_session(request):
-    print("🔹 Session cart_id:", request.session.get("cart_id"))
-    print("🔹 Kullanıcı:", request.user)
-    print("🔹 Giriş yapmış mı:", request.user.is_authenticated)
+# def debug_cart_session(request):
+#     print("🔹 Session cart_id:", request.session.get("cart_id"))
+#     print("🔹 Kullanıcı:", request.user)
+#     print("🔹 Giriş yapmış mı:", request.user.is_authenticated)
 
 def add_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
@@ -63,115 +63,7 @@ def cart(request):
     tax = total * 0.02
     return render(request, 'store/cart.html', {'total': total, 'tax': tax, 'grand_total': total + tax, 'cart_items': cart_items})
 
-# @login_required(login_url='login')
-# def checkout(request):
-#     cart = get_or_create_cart(request)
-#     cart_items = cartItem.objects.filter(cart=cart, is_active=True)
-#     total = sum(item.product.price * item.quantity for item in cart_items)
-#     tax = total * 0.02
-#     return render(request, 'store/checkout.html', {
-#         'total': total, 
-#         'tax': tax, 
-#         'grand_total': total + tax, 
-#         'cart_items': cart_items
-#     })
 
-
-
-# @login_required(login_url='login')
-# def checkout(request):
-#     # Kullanıcıya ait sepeti alıyoruz (anonimse sepeti oluşturuyoruz)
-#     cart = get_or_create_cart(request)
-
-#     # Sepetteki ürünleri alıyoruz ve aktif ürünleri filtreliyoruz
-#     cart_items = cartItem.objects.filter(cart=cart, is_active=True)
-
-#     # Toplam fiyatı hesaplıyoruz
-#     total = sum(item.product.price * item.quantity for item in cart_items)
-
-#     # Vergi hesaplaması
-#     tax = total * 0.02  # Örneğin %2 vergi
-
-#     # Grand total (vergi dahil toplam)
-#     grand_total = total + tax
-
-#     # Formu işleme alıyoruz
-#     if request.method == 'POST':
-#         form = OrderForm(request.POST)
-#         if form.is_valid():
-#             # Sipariş formu geçerli ise kaydediyoruz
-#             order = form.save(commit=False)
-#             order.cart = cart  # Sepet ile ilişkilendiriyoruz
-#             order.user = request.user  # Giriş yapan kullanıcıyı atıyoruz
-#             order.save()
-
-#             # Sepetindeki ürünleri işaretliyoruz
-#             cart_items.update(is_active=False)
-
-#             # Sepeti boşaltıyoruz
-#             cart.cartitem_set.all().delete()
-
-#             # Başarıyla sipariş sonrası yönlendirme
-#             return redirect('order_complete')  # Sipariş tamamlandıktan sonra bir sayfaya yönlendirebilirsiniz.
-
-#     else:
-#         form = OrderForm()  # Eğer GET isteği ise formu boş olarak gönderiyoruz
-
-#     # Şablona gerekli verileri gönderiyoruz
-#     return render(request, 'store/checkout.html', {
-#         'total': total, 
-#         'tax': tax, 
-#         'grand_total': grand_total, 
-#         'cart_items': cart_items,
-#         'form': form
-#     })
-# @login_required(login_url='login')
-# def checkout(request):
-#     # Kullanıcıya ait sepeti alıyoruz (anonimse sepeti oluşturuyoruz)
-#     cart = get_or_create_cart(request)
-
-#     # Sepetteki ürünleri alıyoruz ve aktif ürünleri filtreliyoruz
-#     cart_items = cartItem.objects.filter(cart=cart, is_active=True)
-
-#     # Toplam fiyatı hesaplıyoruz
-#     total = sum(item.product.price * item.quantity for item in cart_items)
-
-#     # Vergi hesaplaması
-#     tax = total * 0.02  # Örneğin %2 vergi
-
-#     # Grand total (vergi dahil toplam)
-#     grand_total = total + tax
-
-#     # Formu işleme alıyoruz
-#     if request.method == 'POST':
-#         form = OrderForm(request.POST)
-#         if form.is_valid():
-#             # Sipariş formu geçerli ise kaydediyoruz
-#             order = form.save(commit=False)
-#             order.cart = cart  # Sepet ile ilişkilendiriyoruz
-#             order.user = request.user  # Giriş yapan kullanıcıyı atıyoruz
-#             order.save()
-
-#             # Sepetindeki ürünleri işaretliyoruz
-#             cart_items.update(is_active=False)
-
-#             # Sepeti boşaltıyoruz
-#             cart.cartitem_set.all().delete()
-
-#             # Başarıyla sipariş sonrası yönlendirme
-#             return redirect('order_complete')  # Sipariş tamamlandıktan sonra bir sayfaya yönlendirebilirsiniz.
-
-#     else:
-#         form = OrderForm()  # Eğer GET isteği ise formu boş olarak gönderiyoruz
-
-#     # Şablona gerekli verileri gönderiyoruz
-#     return render(request, 'store/checkout.html', {
-#         'total': total, 
-#         'tax': tax, 
-#         'grand_total': grand_total, 
-#         'cart_items': cart_items,
-#         'form': form
-#     })
 @login_required(login_url='login')
 def checkout(request):
     # Kullanıcıya ait sepeti alıyoruz (anonimse sepeti oluşturuyoruz)
