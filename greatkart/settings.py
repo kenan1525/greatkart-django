@@ -63,8 +63,10 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = ['postgres-production-5ad9.up.railway.app','https://postgres-production-5ad9.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https://postgres-production-5ad9.up.railway.app']
+ALLOWED_HOSTS = ['greatkart-django-production.up.railway.app', '127.0.0.1', 'localhost']
+
+CSRF_TRUSTED_ORIGINS = ['https://greatkart-django-production.up.railway.app']
+
     
 
 
