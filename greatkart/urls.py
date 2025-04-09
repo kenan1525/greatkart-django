@@ -30,5 +30,16 @@ urlpatterns = [
 
     path('orders/',include('orders.urls')),
 ] 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', views.home, name='home'),
+    path('store/', include('store.urls')),
+    # diğer url path'leri
+]
+
+if settings.DEBUG:  # Bu satırı yalnızca geliştirirken kullanın
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
