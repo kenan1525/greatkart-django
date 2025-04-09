@@ -61,7 +61,7 @@ LOGGING = {
 }
 
 ALLOWED_HOSTS = ['postgres-production-5ad9.up.railway.app','https://postgres-production-5ad9.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['postgres-production-5ad9.up.railway.app','https://postgres-production-5ad9.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://postgres-production-5ad9.up.railway.app']
     
 
 
