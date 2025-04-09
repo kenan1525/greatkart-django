@@ -13,33 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+
 from django.contrib import admin
-from django.urls import path,include
+from django.urls import path, include
 from . import views
-from django.conf.urls.static import static
-from django.conf import settings
-
-urlpatterns = [
-    
-    path('kenan/', admin.site.urls),
-    path('',views.home, name='home'),
-    path('about/',views.about, name='about'),
-    path('store/',include('store.urls')),
-    path('cart/',include('carts.urls')),
-    path('accounts/',include('accounts.urls')),
-
-    path('orders/',include('orders.urls')),
-] 
-
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('store/', include('store.urls')),
-    # diğer url path'leri
+    path('kenan/', admin.site.urls),  # Admin paneli için URL
+    path('', views.home, name='home'),  # Anasayfa URL
+    path('about/', views.about, name='about'),  # Hakkında sayfası URL
+    path('store/', include('store.urls')),  # Store (ürün) sayfası URL
+    path('cart/', include('carts.urls')),  # Sepet sayfası URL
+    path('accounts/', include('accounts.urls')),  # Hesap işlemleri için URL
+    path('orders/', include('orders.urls')),  # Sipariş sayfası URL
 ]
 
-if settings.DEBUG:  # Bu satırı yalnızca geliştirirken kullanın
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Eğer DEBUG modu açıksa, medya ve statik dosyaların doğru şekilde yüklenmesini sağlamak için:
+if settings.DEBUG:  
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # Medya dosyaları
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  # Statik dosyalar
