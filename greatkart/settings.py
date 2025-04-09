@@ -11,16 +11,17 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
-from decouple import config
-import dj_database_url
+from decouple import Config, Csv
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default="postgresql://postgres:CBQaGWsjgaKYKODYqxnvlyeqeJDgVhYS@railway-public-db-url.com:5432/railway",
-        conn_max_age=600,
-        ssl_require=True,
-    )
-}
+config = Config() 
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default="postgresql://postgres:CBQaGWsjgaKYKODYqxnvlyeqeJDgVhYS@railway-public-db-url.com:5432/railway",
+#         conn_max_age=600,
+#         ssl_require=True,
+#     )
+# }
 
 
 
@@ -167,7 +168,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-en'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Europe/Istanbul'
 
