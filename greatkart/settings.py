@@ -17,15 +17,6 @@ from decouple import config
 
 
 
-# DATABASES = {
-#     'default': dj_database_url.config(
-#         default="postgresql://postgres:CBQaGWsjgaKYKODYqxnvlyeqeJDgVhYS@railway-public-db-url.com:5432/railway",
-#         conn_max_age=600,
-#         ssl_require=True,
-#     )
-# }
-
-
 
 
 
@@ -41,7 +32,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY ='-gsuhlk5-7h_^ejssa5((1f+i3v9gq1$t$_javnqv&a(5x7_d9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False 
+DEBUG = True 
 
 
 LOGGING = {
