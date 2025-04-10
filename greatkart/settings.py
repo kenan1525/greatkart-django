@@ -64,7 +64,13 @@ LOGGING = {
 }
 
 # ALLOWED_HOSTS = ['greatkart-django-production.up.railway.app', '127.0.0.1', 'localhost']
-ALLOWED_HOSTS = ['greatkart-django-3dhm.onrender.com', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    'greatkart-django-production.up.railway.app',
+    'greatkart-django-3dhm.onrender.com',
+    '127.0.0.1',
+    'localhost'
+]
+
 
 
 # CSRF_TRUSTED_ORIGINS = ['https://greatkart-django-production.up.railway.app']
