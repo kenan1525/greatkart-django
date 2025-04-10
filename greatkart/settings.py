@@ -75,9 +75,10 @@ ALLOWED_HOSTS = [
 
 # CSRF_TRUSTED_ORIGINS = ['https://greatkart-django-production.up.railway.app']
 CSRF_TRUSTED_ORIGINS = [
-    'https://greatkart-django-3dhm.onrender.com',
-    'https://greatkart-django-production.up.railway.app'
+    'https://greatkart-django-production.up.railway.app',
+    'https://greatkart-django-3dhm.onrender.com'
 ]
+
 
 
     
