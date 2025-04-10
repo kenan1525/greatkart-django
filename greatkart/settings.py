@@ -54,20 +54,19 @@ LOGGING = {
     },
 }
 
-# ALLOWED_HOSTS = ['greatkart-django-production.up.railway.app', '127.0.0.1', 'localhost']
 ALLOWED_HOSTS = [
-    
     'greatkart-django-3dhm.onrender.com',
     '127.0.0.1',
-    'localhost'
+    'localhost',
+    'devturks.com',
+    'www.devturks.com',
 ]
-# 'greatkart-django-production.up.railway.app',
-# 'https://greatkart-django-production.up.railway.app',
 
-# CSRF_TRUSTED_ORIGINS = ['https://greatkart-django-production.up.railway.app']
+
 CSRF_TRUSTED_ORIGINS = [
-    
-    'https://greatkart-django-3dhm.onrender.com'
+    'https://greatkart-django-3dhm.onrender.com',
+    'https://devturks.com',
+    'https://www.devturks.com',
 ]
 
 
