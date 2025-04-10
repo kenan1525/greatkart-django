@@ -41,7 +41,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY ='-gsuhlk5-7h_^ejssa5((1f+i3v9gq1$t$_javnqv&a(5x7_d9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
 
 
 LOGGING = {
@@ -63,9 +63,16 @@ LOGGING = {
     },
 }
 
-ALLOWED_HOSTS = ['greatkart-django-production.up.railway.app', '127.0.0.1', 'localhost']
+# ALLOWED_HOSTS = ['greatkart-django-production.up.railway.app', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['greatkart-django-3dhm.onrender.com', '127.0.0.1', 'localhost']
 
-CSRF_TRUSTED_ORIGINS = ['https://greatkart-django-production.up.railway.app']
+
+# CSRF_TRUSTED_ORIGINS = ['https://greatkart-django-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = [
+    'https://greatkart-django-3dhm.onrender.com',
+    'https://greatkart-django-production.up.railway.app'
+]
+
 
     
 
