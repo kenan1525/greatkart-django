@@ -140,7 +140,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'kenan1525',
         'USER': 'kenan1525_user',
-        'DB_PASSWORD' : 'nHvPdjXD6FQ24AvCzvoNacejgHeG3W1s',
+        'PASSWORD': 'nHvPdjXD6FQ24AvCzvoNacejgHeG3W1s',
         'HOST': 'dpg-d19gfj3e5dus738vhgmg-a.frankfurt-postgres.render.com',
         'PORT': '5432',
         'OPTIONS': {
