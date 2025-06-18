@@ -97,7 +97,11 @@
 </div> <!-- row.// -->
 
 </div><!-- container // -->
-</section>
+{% comment %} <div class="d-flex gap-2">
+  <a href="{% url 'add_cart' product.id %}" class="btn btn-danger flex-fill">Add to contract</a>
+  <a href="{{ product.get_url }}" class="btn btn-danger flex-fill">View Detail</a>
+</div>
+</section> {% endcomment %}
 <!-- ========================= SECTION  END// ========================= -->
 
 

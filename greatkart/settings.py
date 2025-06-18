@@ -129,29 +129,44 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'greatkart.wsgi.application'
 
 AUTH_USER_MODEL ='accounts.Account'
 
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kenan1525',
+        'USER': 'kenan1525_user',
+        'DB_PASSWORD' : 'nHvPdjXD6FQ24AvCzvoNacejgHeG3W1s',
+        'HOST': 'dpg-d19gfj3e5dus738vhgmg-a.frankfurt-postgres.render.com',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+            'client_encoding': 'UTF8',
+        },
+    }
+}
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'mainline.proxy.rlwy.net',   # Public bağlantı için bu
-        'PORT': '33745',                     # Özel port (Railway'den)
-        'OPTIONS': {
-            'sslmode': 'require',            # SSL zorunlu Railway'de
-            'client_encoding': 'UTF8',       # UTF-8 hatasını önler
-        },
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST':' trolley.proxy.rlwy.net',  # Railway'den gelen özel host
+#         'PORT': '55465',                     # Özel port (Railway'den)
+#         'OPTIONS': {
+#             'sslmode': 'require',            # SSL zorunlu Railway'de
+#             'client_encoding': 'UTF8',       # UTF-8 hatasını önler
+#         },
+#     }
+# }
 
 
 
@@ -233,3 +248,7 @@ SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Oturumları veritaban�
 SESSION_SAVE_EVERY_REQUEST = True  # Her istekte oturumun kaybolmasını engelle
 SESSION_COOKIE_AGE = 86400  # 24 saat boyunca oturumu sakla
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+if config('USE_DJ_DATABASE_URL', default=False, cast=bool):
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
