@@ -13,17 +13,8 @@ import os
 from pathlib import Path
 from decouple import config  
 
-
-
-
-
-
-
-
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -32,8 +23,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY ='-gsuhlk5-7h_^ejssa5((1f+i3v9gq1$t$_javnqv&a(5x7_d9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True 
-
+DEBUG = False
 
 LOGGING = {
     'version': 1,
@@ -62,18 +52,11 @@ ALLOWED_HOSTS = [
     'www.devturks.com',
 ]
 
-
 CSRF_TRUSTED_ORIGINS = [
     'https://greatkart-django-3dhm.onrender.com',
     'https://devturks.com',
     'https://www.devturks.com',
 ]
-
-
-
-    
-
-
 
 # Application definition
 
@@ -90,11 +73,9 @@ INSTALLED_APPS = [
     'carts',
     'orders',
     'whitenoise.runserver_nostatic',
-    
-    
-  
-   
+    'storages',  # AWS S3 için eklendi
 ]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MIDDLEWARE = [
@@ -106,7 +87,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'greatkart.urls'
@@ -129,8 +109,6 @@ TEMPLATES = [
     },
 ]
 
-
-
 WSGI_APPLICATION = 'greatkart.wsgi.application'
 
 AUTH_USER_MODEL ='accounts.Account'
@@ -149,30 +127,6 @@ DATABASES = {
         },
     }
 }
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': config('DB_PASSWORD'),
-#         'HOST':' trolley.proxy.rlwy.net',  # Railway'den gelen özel host
-#         'PORT': '55465',                     # Özel port (Railway'den)
-#         'OPTIONS': {
-#             'sslmode': 'require',            # SSL zorunlu Railway'de
-#             'client_encoding': 'UTF8',       # UTF-8 hatasını önler
-#         },
-#     }
-# }
-
-
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -189,10 +143,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'Europe/Istanbul'
@@ -203,52 +153,44 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
 STATIC_URL = '/static/'
-
-# Static dosyaların toplandığı ana klasör
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Ek static dosyalarının bulunduğu dizinler
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # 'static' dizini projenin içinde olmalı
+    BASE_DIR / 'static',
 ]
-
-# Whitenoise ayarları
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# AWS S3 Configuration for Media Files
 
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'  # Medya dosyalarının saklanacağı dizin
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_ADDRESSING_STYLE = "virtual"
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com/'
 
+if DEBUG:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+    MEDIA_URL = '/media/'
 
-
-from django.contrib.messages import constants as messages
-
-MESSAGE_TAGS = {
-    messages.ERROR: "danger",
-   
-}
-
-EMAIL_BACKEND =config('EMAIL_BACKEND')
+# Email settings
+EMAIL_BACKEND = config('EMAIL_BACKEND')
 EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config ('EMAIL_PORT', cast=int)
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-SESSION_ENGINE = "django.contrib.sessions.backends.db"  # Oturumları veritabanında sakla
-SESSION_SAVE_EVERY_REQUEST = True  # Her istekte oturumun kaybolmasını engelle
-SESSION_COOKIE_AGE = 86400  # 24 saat boyunca oturumu sakla
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 86400
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-
-if config('USE_DJ_DATABASE_URL', default=False, cast=bool):
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
