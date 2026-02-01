@@ -7,10 +7,10 @@
 
 <!-- ============================ COMPONENT 1 ================================= -->
 {% if not cart_items %}
-<h2 class="text-center">Your Cart İs Empty</h2>
+<h2 class="text-center">Your Contract is Empty</h2>
 <br>
 <div class="text-center">
-<a href="{% url 'store' %}" class="btn btn-primary">Continue Shopping</a>
+<a href="{% url 'store' %}" class="btn btn-primary">Continue Searching</a>
 
 
 {% else %}
@@ -87,7 +87,7 @@
 			</dl>
 			<dl class="dlist-align">
 			  <dt>Tax:</dt>
-			   <dd class="text-right"> {{tax}}</dd> {
+			   <dd class="text-right"> {{tax}}</dd> 
 			</dl>
 			<dl class="dlist-align">
 			  <dt>Grand Total:</dt>
@@ -98,7 +98,7 @@
 				<img src="{% static './images/misc/payments.png' %}" height="26">
 			</p> {% endcomment %}
 			<a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Checkout </a>
-			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Searching</a>
 		</div> <!-- card-body.// -->
 		</div> <!-- card.// -->
 

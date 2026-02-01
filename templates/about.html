@@ -2,36 +2,80 @@
 {% load static %}
 {% block content %}
 
-<div class="container">
-  <div class="row" style="height: 300px; background: linear-gradient(to bottom right, rgb(245, 29, 58), rgb(248, 66, 53));">
-    <div class="col-12 text-center">
-    <h1>PRESIDENCY OF THE REPUBLIC OF TÜRKİYE </h1>
-    <img src="{% static 'images/items/arma.png' %}" alt="Logo" style="width: 200px; height: auto;">
+<!-- HEADER -->
+<div class="container-fluid py-5 text-center" 
+     style="background: linear-gradient(to bottom right, rgb(245, 29, 58), rgb(248, 66, 53)); color:white;">
+  
+  <h1 class="mb-3">REPUBLIC OF TÜRKİYE</h1>
+  <h4 class="mb-4">Defense & Industry Cooperation Platform</h4>
+
+  <img src="{% static 'images/items/arma.png' %}" alt="Logo" style="width:180px;">
+  
+  <p class="mt-4">
+    This platform is created for demonstration and presentation purposes only.
+  </p>
+</div>
+
+<!-- MINISTRIES -->
+<div class="container py-5 text-center">
+  <div class="row">
+    <div class="col-md-4">
+      <h4>Ministry of Trade</h4>
+      <p>International cooperation and industry coordination</p>
+    </div>
+
+    <div class="col-md-4">
+      <h4>Ministry of National Defense</h4>
+      <p><b>Demo & Presentation Platform</b></p>
+    </div>
+
+    <div class="col-md-4">
+      <h4>Ministry of Foreign Affairs</h4>
+      <p>Government-to-Government relations</p>
     </div>
   </div>
 </div>
-<div class="container" style="height: 300px; background: linear-gradient(to bottom right, rgb(245, 29, 58), rgb(248, 66, 53)); ">
-  <div class="row" style="height: 300px;">
-    <div class="col-md-4 text-center">TİCARET BAKANLIĞI</div>
-    <div class="col-md-4 text-center">SAVUNMA BAKANLIĞI<br><h1>TEST VE SUNUM YAYINIDIR<h1></div>
-    <div class="col-md-4 text-center">DIŞ İŞLERİ BAKANLIĞI</div>
-  </div>
-</div>
-<div class="container" style="height: 300px; background: linear-gradient(to bottom right, rgb(245, 29, 58), rgb(248, 66, 53)); ">
-  <div class="row" style="height: 300px;">
-    <div class="col-md-3 text-center">BAYKAR TEK.<br>
-    <h1>TEST VE SUNUM YAYINIDIR<h1></div>
-    <div class="col-md-3 text-center">TUSAŞ</div>
-    <div class="col-md-3 text-center">ASELSAN</div>
-    <div class="col-md-3 text-center">TEİ</div>
-</div>
-  </div>
-</div>
-<div class="container" style="height: 300px; background: linear-gradient(to bottom right, rgb(245, 29, 58), rgb(248, 66, 53)); ">
-  <div class="row" style="height: 300px;">
-    <div class="col-md-12 text-center"></div>
-  <h2 class="text-center">"DEVTÜRKS ................."</h2>
-    
 
+<!-- COMPANIES -->
+<div class="container py-5 text-center bg-light">
+  <h3 class="mb-4">Participating Defense Industry Companies</h3>
+
+  <div class="row">
+    <div class="col-md-3">BAYKAR TECHNOLOGIES</div>
+    <div class="col-md-3">TUSAŞ (Turkish Aerospace)</div>
+    <div class="col-md-3">ASELSAN</div>
+    <div class="col-md-3">TEI</div>
   </div>
+
+  <p class="mt-4">
+    This website represents a centralized showcase of Turkish defense industry capabilities 
+    for international cooperation and official communication.
+  </p>
+</div>
+
+<!-- MISSION -->
+<div class="container py-5 text-center">
+  <h2>DEVTÜRKS Platform Mission</h2>
+
+  <p class="mt-3">
+    DEVTÜRKS is a Government-to-Government (G2G) and Business-to-Government (B2G) 
+    cooperation platform designed to present Turkish defense and technology products 
+    under one digital roof.
+  </p>
+
+  <p>
+    The platform allows authorized institutions to express interest in products, 
+    initiate official communication processes, and coordinate international cooperation activities.
+  </p>
+
+  <p>
+    This website does not perform direct sales or commercial transactions. 
+    All interactions are conducted through official and diplomatic channels.
+  </p>
+
+  <p class="mt-3 text-muted">
+    * This project is a demonstration and presentation prototype.
+  </p>
+</div>
+
 {% endblock %}
