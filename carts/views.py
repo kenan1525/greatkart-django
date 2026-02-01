@@ -1,113 +1,125 @@
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
 from store.models import Product
-from carts.utils import get_or_create_cart, merge_carts
-from carts.models import cartItem, Cart
-from django.db.models import F
-from carts.utils import get_or_create_cart, _cart_id
-from django.core.exceptions import ObjectDoesNotExist
-
-from orders.forms import OrderForm
+from .models import Cart, CartItem
+from .utils import get_or_create_cart
 
 
+# ----------------------
+# Helper Fonksiyonlar
+# ----------------------
+def _get_cart_items(request):
+    """
+    Kullanıcının sepet öğelerini döndürür.
+    Login olmuşsa kullanıcı bazlı,
+    değilse session bazlı.
+    """
+    cart = get_or_create_cart(request, request.user)
+
+    if request.user.is_authenticated:
+        cart_items = CartItem.objects.filter(cart=cart, user=request.user, is_active=True)
+    else:
+        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
+
+    return cart_items
 
 
-
-# def debug_cart_session(request):
-#     print("🔹 Session cart_id:", request.session.get("cart_id"))
-#     print("🔹 Kullanıcı:", request.user)
-#     print("🔹 Giriş yapmış mı:", request.user.is_authenticated)
-
+# ----------------------
+# Cart Actions
+# ----------------------
 def add_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    cart = get_or_create_cart(request)
-    
-    cart_item, created = cartItem.objects.get_or_create(
-        product=product, cart=cart,
-        defaults={'quantity': 1, 'user': request.user if request.user.is_authenticated else None}
-    )
-    
+    cart = get_or_create_cart(request, request.user)
+
+    if request.user.is_authenticated:
+        cart_item, created = CartItem.objects.get_or_create(
+            product=product,
+            cart=cart,
+            user=request.user
+        )
+    else:
+        cart_item, created = CartItem.objects.get_or_create(
+            product=product,
+            cart=cart
+        )
+
     if not created:
-        cart_item.quantity = F('quantity') + 1
-        cart_item.save(update_fields=['quantity'])
-        cart_item.refresh_from_db()  # Güncellenmiş değeri çek
-    
+        cart_item.quantity += 1
+
+    cart_item.save()
     return redirect('cart')
 
+
 def remove_cart(request, product_id):
-    cart = get_or_create_cart(request)
-    cart_item = get_object_or_404(cartItem, product_id=product_id, cart=cart)
-    
+    product = get_object_or_404(Product, id=product_id)
+    cart = get_or_create_cart(request, request.user)
+
+    if request.user.is_authenticated:
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product, user=request.user)
+    else:
+        cart_item = get_object_or_404(CartItem, cart=cart, product=product)
+
     if cart_item.quantity > 1:
-        cart_item.quantity = F('quantity') - 1
-        cart_item.save(update_fields=['quantity'])
-        cart_item.refresh_from_db()
+        cart_item.quantity -= 1
+        cart_item.save()
     else:
         cart_item.delete()
 
     return redirect('cart')
 
+
 def remove_cart_item(request, product_id):
-    cart = get_or_create_cart(request)
-    cart_item = get_object_or_404(cartItem, product_id=product_id, cart=cart)
-    cart_item.delete()
-    messages.success(request, "Ürün sepetten kaldırıldı.")
+    product = get_object_or_404(Product, id=product_id)
+    cart = get_or_create_cart(request, request.user)
+
+    if request.user.is_authenticated:
+        CartItem.objects.filter(cart=cart, product=product, user=request.user).delete()
+    else:
+        CartItem.objects.filter(cart=cart, product=product).delete()
+
     return redirect('cart')
 
+
+# ----------------------
+# Cart Display
+# ----------------------
 def cart(request):
-    cart = get_or_create_cart(request)
-    cart_items = cartItem.objects.filter(cart=cart, is_active=True)
+    cart_items = _get_cart_items(request)
     total = sum(item.product.price * item.quantity for item in cart_items)
-    tax = total * 0.02
-    return render(request, 'store/cart.html', {'total': total, 'tax': tax, 'grand_total': total + tax, 'cart_items': cart_items})
+    quantity = sum(item.quantity for item in cart_items)
+
+    context = {
+        'cart_items': cart_items,
+        'total': total,
+        'quantity': quantity,
+    }
+    return render(request, 'store/cart.html', context)
 
 
+# ----------------------
+# Checkout
+# ----------------------
 @login_required(login_url='login')
 def checkout(request):
-    # Kullanıcıya ait sepeti alıyoruz (anonimse sepeti oluşturuyoruz)
-    cart = get_or_create_cart(request)
+    cart_items = _get_cart_items(request).filter(user=request.user)
 
-    # Sepetteki ürünleri alıyoruz ve aktif ürünleri filtreliyoruz
-    cart_items = cartItem.objects.filter(cart=cart, is_active=True)
+    if not cart_items.exists():
+        messages.warning(request, "Sepetiniz boş.")
+        return redirect('store')
 
-    # Toplam fiyatı hesaplıyoruz
     total = sum(item.product.price * item.quantity for item in cart_items)
+    quantity = sum(item.quantity for item in cart_items)
 
-    # Vergi hesaplaması
-    tax = total * 0.02  # Örneğin %2 vergi
+    from orders.forms import OrderForm
+    form = OrderForm()
 
-    # Grand total (vergi dahil toplam)
-    grand_total = total + tax
-
-    # Formu işleme alıyoruz
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            # Sipariş formu geçerli ise kaydediyoruz
-            order = form.save(commit=False)
-            order.cart = cart  # Sepet ile ilişkilendiriyoruz
-            order.user = request.user  # Giriş yapan kullanıcıyı atıyoruz
-            order.save()
-
-            # Sepetindeki ürünleri işaretliyoruz
-            cart_items.update(is_active=False)
-
-            # Sepeti boşaltıyoruz
-            cart.cartitem_set.all().delete()
-
-            # Başarıyla sipariş sonrası yönlendirme
-            return redirect('order_complete')  # Sipariş tamamlandıktan sonra bir sayfaya yönlendirebilirsiniz.
-
-    else:
-        form = OrderForm()  # Eğer GET isteği ise formu boş olarak gönderiyoruz
-
-    # Şablona gerekli verileri gönderiyoruz
-    return render(request, 'store/checkout.html', {
-        'total': total, 
-        'tax': tax, 
-        'grand_total': grand_total, 
+    context = {
         'cart_items': cart_items,
-        'form': form
-    })
+        'total': total,
+        'quantity': quantity,
+        'form': form,
+    }
+
+    return render(request, 'store/checkout.html', context)

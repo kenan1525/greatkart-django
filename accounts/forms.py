@@ -1,4 +1,3 @@
-
 from django import forms
 from .models import Account
 
@@ -30,6 +29,13 @@ class RegistrationForm(forms.ModelForm):
         password = cleaned_data.get('password')
         confirm_password = cleaned_data.get('confirm_password')
 
+        # Şifreler uyuşuyor mu kontrolü
         if password != confirm_password:
             self.add_error('confirm_password', 'Passwords do not match!')
 
+        # Email zaten kayıtlı mı kontrol
+        email = cleaned_data.get('email')
+        if email and Account.objects.filter(email=email).exists():
+            self.add_error('email', 'This email is already registered!')
+
+        return cleaned_data

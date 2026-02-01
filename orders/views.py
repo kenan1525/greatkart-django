@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from carts.models import cartItem
+from carts.models import CartItem
 from .forms import OrderForm
 import datetime
 from .models import Order,OrderProduct
@@ -12,7 +12,7 @@ from django.core.mail import EmailMessage
 def place_order(request, total=0, quantity=0):
     current_user = request.user
 
-    cart_items = cartItem.objects.filter(user=current_user)
+    cart_items = CartItem.objects.filter(user=current_user)
     cart_count = cart_items.count()
     
     if cart_count <= 0:
@@ -69,7 +69,7 @@ def place_order(request, total=0, quantity=0):
                 order_product.save()
 
                 # Sepetteki ürünü silme
-            cartItem.objects.filter(user=current_user).delete()  # Sepeti temizle
+            CartItem.objects.filter(user=current_user).delete()  # Sepeti temizle
 
         # Sipariş oluşturulduktan sonra kullanıcıya mesaj gönderme
         mail_subject = 'Siparişiniz başarıyla oluşturuldu'

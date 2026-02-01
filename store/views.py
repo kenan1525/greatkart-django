@@ -1,13 +1,11 @@
-from django.shortcuts import render,get_object_or_404
-from .models import Product,ProductGallery
+from django.shortcuts import render, get_object_or_404
+from .models import Product, ProductGallery
 from category.models import Category
-from carts.views import _cart_id
+from carts.utils import get_or_create_cart
+from carts.models import CartItem
 from django.db.models import Q
-
-
-from carts.models import cartItem
-from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
-
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from carts.utils import _cart_id
 
 
 def store(request, category_slug=None):
@@ -15,56 +13,60 @@ def store(request, category_slug=None):
     products = None
 
     if category_slug is not None:
-        # Kategoriye göre ürünleri filtrele
         categories = get_object_or_404(Category, slug=category_slug)
         products = Product.objects.filter(category=categories, is_available=True)
-        paginator=Paginator(products,9)#paginate sayfası gösterilecek ürün sayısı kategoride
-        page=request.GET.get('page')
-        paged_products =paginator.get_page(page)
-        product_count = products.count()
     else:
-        # Kategorisiz tüm mevcut ürünleri listele
         products = Product.objects.filter(is_available=True).order_by('id')
-        paginator=Paginator(products,9)#store pagination ürün sayfası
-        page=request.GET.get('page')
-        paged_products =paginator.get_page(page)
-        product_count = products.count()
+
+    paginator = Paginator(products, 9)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
+    product_count = products.count()
 
     context = {
-        'products': paged_products,  # Ürünleri templatene gönder normalde product,paginate işlem yüzünden
-        'product_count': product_count,  # Ürün sayısını templatene gönder
-        'category': categories  # Eğer kategori filtresi varsa, kategoriyi de templatene gönder
+        'products': paged_products,
+        'product_count': product_count,
+        'category': categories,
     }
 
     return render(request, 'store/store.html', context)
 
-def product_detail(request,category_slug,product_slug):
-    try:
-        single_product=Product.objects.get(category__slug=category_slug, slug=product_slug)
-        in_cart =cartItem.objects.filter(cart__cart_id=_cart_id(request),product=single_product).exists()
-    
-    except Exception as e:
-        raise e
-    
+
+def product_detail(request, category_slug, product_slug):
+    single_product = get_object_or_404(Product, category__slug=category_slug, slug=product_slug)
+
+    # ✅ yeni cart sistemi
+    cart = get_or_create_cart(request, request.user)
+
+    in_cart = CartItem.objects.filter(cart=cart, product=single_product).exists()
+
     product_gallery = ProductGallery.objects.filter(product_id=single_product.id)
 
-    context  ={
-        'single_product':single_product,
-        'in_cart'        :in_cart,
-        'product_gallery' :product_gallery,
-    }    
-    return render(request,'store/product_detail.html',context)
+    context = {
+        'single_product': single_product,
+        'in_cart': in_cart,
+        'product_gallery': product_gallery,
+    }
+
+    return render(request, 'store/product_detail.html', context)
 
 
 def search(request):
+    products = []
+    product_count = 0
+
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
         if keyword:
-            products = Product.objects.order_by('-created_date').filter(Q(description__icontains=keyword )| Q(product_name__icontains=keyword))
+            products = Product.objects.filter(
+                Q(description__icontains=keyword) |
+                Q(product_name__icontains=keyword)
+            ).order_by('-created_date')
             product_count = products.count()
-            context = {
-                'products': products,
-                'product_count': product_count,
-             
-            }   
-    return render(request,'store/store.html',context)
+
+    context = {
+        'products': products,
+        'product_count': product_count,
+    }
+
+    return render(request, 'store/store.html', context)
