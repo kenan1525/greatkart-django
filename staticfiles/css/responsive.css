@@ -80,34 +80,41 @@
     flex-direction: column;
   }
 }
-/* ================= MOBILE DESIGN ================= */
-@media all and (max-width: 768px) {
-
-  /* Banner */
-  .intro-banner-wrap {
-    min-height: 220px;
+ /* ================= MOBILE FIX FOR BANNER & SLIDER ================= */
+@media (max-width: 576px) {
+  /* Banner kutusu otomatik yükseklik */
+  .banner-box, .intro-banner-wrap {
+    height: auto !important;        /* içerik yüksekliğine göre */
+    padding: 15px;
+    margin-bottom: 15px;            /* slider ile boşluk */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 15px;
-    border-radius: 12px;
+    text-align: center;
   }
 
-  .intro-banner-wrap h4 {
+  .banner-box h4, .intro-banner-wrap h4 {
     font-size: 1.1rem;
   }
 
-  .intro-banner-wrap p.lead {
+  .banner-box p.lead, .intro-banner-wrap p.lead {
     font-size: 0.9rem;
     margin-bottom: 6px;
   }
 
-  .intro-banner-wrap .btn {
-    width: 100%;
-    margin-bottom: 8px;
+  /* Butonlar alt alta ve arada boşluk */
+  .banner-box .d-flex, .intro-banner-wrap .d-flex {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
   }
 
-  /* Slider */
+  .banner-box .btn, .intro-banner-wrap .btn {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  /* Slider yüksekliği mobilde biraz küçült */
   .slider-box {
     height: 220px !important;
     border-radius: 12px;
@@ -116,6 +123,9 @@
   .slider-box img {
     object-fit: cover;
   }
+}
+
+ 
 
   /* Products */
   .product-card img {
@@ -131,7 +141,7 @@
     font-size: 0.9rem;
   }
 
-}
+
 
 /* ================= TABLET ================= */
 @media (max-width: 992px) {

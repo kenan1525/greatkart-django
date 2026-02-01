@@ -2,71 +2,104 @@
 <header class="section-header">
 
 <section class="header-main border-bottom">
-	<div class="container">
-		<div class="row align-items-center">
-			<div class="col-lg-3 col-md-3 col-6">
-				<a href="{% url 'home' %}" class="brand-wrap">
-					<span style="font-weight: bold; font-size: 48px;">
-						<span style="color: #1e4fff;">DEV</span><span style="color: #555;">TÜRKS</span>
-					</span>
-				</a>
-			</div>
-			<div class="col-lg col-sm col-md col-6 flex-grow-0">
-				<div class="category-wrap dropdown d-inline-block float-right">
-					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-bars"></i> All category 
-					</button>
-					<div class="dropdown-menu w-auto"> <!-- Ekrana göre genişliği ayarla -->
-						<a class="dropdown-item" href="{% url 'store' %}">All Products </a>
-						{% for category in links %}
-							<a class="dropdown-item" href="{{category.get_url}}">{{category.category_name}} </a>
-						{% endfor %}
-					</div>
-				</div> 
-			</div>
-			<a href="/store/" class="btn btn-outline-primary">Store</a>
-			<div class="col-lg col-md-6 col-sm-12 col">
-				<form action="{% url 'search' %}" class="search" method="GET">
-					<div class="input-group w-100">
-					    <input type="text" class="form-control" placeholder="Search" name="keyword">
-					    <div class="input-group-append">
-					      <button class="btn btn-primary" type="submit">
-					        <i class="fa fa-search"></i>
-					      </button>
-					    </div>
-					</div>
-				</form>
-			</div>
-			<div class="col-lg-3 col-sm-6 col-8 order-2 order-lg-3">
-				<div class="d-flex justify-content-end mb-3 mb-lg-0">
-				{% if user.id is None %}
-					<div class="widget-header">
-						<small class="title text-muted">Welcome guest!</small>
-						<div> 
-							<a href="{% url 'login' %}">Sign in</a> <span class="dark-transp"> | </span>
-							<a href="{% url 'register' %}"> Register</a>
-						</div>
-					</div>
-				{% else %}
-					<div class="widget-header">
-						<small class="title text-muted">Welcome {{user.first_name}}</small>
-						<div> 
-							<a href="/#">Dashboard</a> <span class="dark-transp"> | </span>
-							<a href="{% url 'logout' %}"> Logout</a>
-						</div>
-					</div>
-				{% endif %}
-				
-					<a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
-						{% comment %} <div class="icon icon-sm rounded-circle border"><i class="fa fa-shopping-cart"></i></div> {% endcomment %}
-						<div class="icon icon-sm rounded-circle border"><i class="fa fa-list-ol"></i></div>
-						<span class="badge badge-pill badge-danger notify"> 
-						{{cart_count}}</span>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LOGO -->
+      <div class="col-12 col-md-3 text-center text-md-left mb-2 mb-md-0">
+        <a href="{% url 'home' %}" class="brand-wrap d-inline-block">
+          <span style="font-weight: bold; font-size: 48px;">
+            <span style="color: #1e4fff;">DEV</span><span style="color: #555;">TÜRKS</span>
+          </span>
+        </a>
+      </div>
+
+      <!-- CATEGORY DROPDOWN & STORE BUTTON -->
+      <div class="col-12 col-md-3 d-flex flex-column flex-md-row align-items-center justify-content-md-start mb-2 mb-md-0">
+        <div class="category-wrap dropdown w-100 w-md-auto mb-2 mb-md-0">
+          <button type="button" class="btn btn-primary dropdown-toggle w-100 w-md-auto" data-toggle="dropdown">
+            <i class="fa fa-bars"></i> All category 
+          </button>
+          <div class="dropdown-menu w-100 w-md-auto">
+            <a class="dropdown-item" href="{% url 'store' %}">All Products</a>
+            {% for category in links %}
+              <a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <a href="/store/" class="btn btn-outline-primary w-100 w-md-auto ml-md-2">Store</a>
+      </div>
+
+      <!-- SEARCH -->
+      <div class="col-12 col-md-4 mb-2 mb-md-0">
+        <form action="{% url 'search' %}" class="search" method="GET">
+          <div class="input-group w-100">
+            <input type="text" class="form-control" placeholder="Search" name="keyword">
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- USER & CART -->
+      <div class="col-12 col-md-2 d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-end">
+        {% if user.id is None %}
+          <div class="widget-header text-center text-md-left mb-2 mb-md-0">
+            <small class="title text-muted">Welcome guest!</small>
+            <div> 
+              <a href="{% url 'login' %}">Sign in</a> <span class="dark-transp"> | </span>
+              <a href="{% url 'register' %}"> Register</a>
+            </div>
+          </div>
+        {% else %}
+          <div class="widget-header text-center text-md-left mb-2 mb-md-0">
+            <small class="title text-muted">Welcome {{user.first_name}}</small>
+            <div> 
+              <a href="/#">Dashboard</a> <span class="dark-transp"> | </span>
+              <a href="{% url 'logout' %}"> Logout</a>
+            </div>
+          </div>
+        {% endif %}
+        <a href="{% url 'cart' %}" class="icon icon-sm rounded-circle border d-inline-block ml-md-2">
+          <i class="fa fa-list-ol"></i>
+          <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
 </section>
 
-</header> 
+</header>
+
+<!-- ================= MOBILE FIX ================= -->
+<style>
+@media (max-width: 768px) {
+  .section-header .row > [class*="col-"] {
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .category-wrap .btn,
+  .btn-outline-primary {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .search .input-group {
+    width: 100%;
+  }
+
+  .widget-header {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .icon.icon-sm {
+    display: block;
+    margin: 0 auto;
+  }
+}
+</style>
