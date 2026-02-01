@@ -20,6 +20,7 @@ from django.urls import path, include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 
 urlpatterns = [
     path('kenan/', admin.site.urls),  # Admin paneli için URL
@@ -29,6 +30,9 @@ urlpatterns = [
     path('cart/', include('carts.urls')),  # Sepet sayfası URL
     path('accounts/', include('accounts.urls')),  # Hesap işlemleri için URL
     path('orders/', include('orders.urls')),  # Sipariş sayfası URL
+
+     # ping endpoint inline
+    path('ping/', lambda request: HttpResponse("pong"), name='ping'),
 ]
 
 # Eğer DEBUG modu açıksa, medya ve statik dosyaların doğru şekilde yüklenmesini sağlamak için:

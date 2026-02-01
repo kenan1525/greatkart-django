@@ -19,6 +19,6 @@ urlpatterns = [
 
 
 # Ping endpoint - en sona ekle
-    path('ping/', views.ping, name='ping'),
+    
    
     ]
