@@ -3,118 +3,167 @@
 
 {% block content %}
 
-<!-- ========================= INTRO SECTION ========================= -->
 <section class="section-intro py-3">
   <div class="container">
     <div class="row">
 
-      <!-- Banner (Sol kısım) -->
+      <!-- Banner -->
       <div class="col-12 col-md-4 mb-3">
-        <div class="intro-banner-wrap p-3 text-center rounded" style="background: linear-gradient(to bottom right, rgb(123, 125, 245), rgb(221, 130, 240));">
-          <h4 class="mb-3"><b>WELCOME TO DEVTÜRKS</b></h4>
-          <p class="lead mb-2">DEVTÜRKS is the first platform for G2G (Government to Government) and B2G (Business to Government) interactions and more</p>
+        <div class="banner-box d-flex flex-column justify-content-center text-center rounded">
+          <h4><b>WELCOME TO DEVTÜRKS</b></h4>
+          <p class="lead">DEVTÜRKS is the first platform for G2G and B2G interactions</p>
           <p class="lead">We are here to contribute to your cooperations</p>
 
-          <!-- Butonlar flex ile -->
-          <div class="d-flex justify-content-center gap-2 mt-3 flex-wrap">
-            <a class="btn btn-danger btn-hover" href="{% url 'store' %}">LET'S BEGIN</a>
-            <a class="btn btn-danger btn-hover" href="{% url 'about' %}">WE SUPPORTED BY</a>
+          <div class="d-flex justify-content-center gap-4 mt-4">
+            <a class="btn btn-danger" href="{% url 'store' %}">LET'S BEGIN</a>
+            <a class="btn btn-danger" href="{% url 'about' %}">WE SUPPORTED BY</a>
           </div>
         </div>
       </div>
 
-      <!-- Slider (Sağ kısım) -->
+      <!-- Slider -->
       <div class="col-12 col-md-8 mb-3">
-        <div class="swiper-container rounded" style="height: 400px; max-height:50vh;">
+        <div class="swiper-container slider-box rounded">
           <div class="swiper-wrapper">
             {% for slider in sliders %}
-              <div class="swiper-slide">
-                <img src="{{ slider.image.url }}" alt="{{ slider.title }}" class="img-fluid rounded" style="width:100%; height:100%; object-fit:cover;">
-              </div>
+            <div class="swiper-slide">
+              <img src="{{ slider.image.url }}" alt="{{ slider.title }}">
+            </div>
             {% endfor %}
           </div>
 
-          <!-- Pagination -->
           <div class="swiper-pagination"></div>
-          <!-- Navigation -->
           <div class="swiper-button-next"></div>
           <div class="swiper-button-prev"></div>
         </div>
       </div>
 
-    </div> <!-- row end -->
-  </div> <!-- container end -->
+    </div>
+  </div>
 </section>
 
-<!-- ========================= SWIPER SCRIPT ========================= -->
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-<script>
-  var swiper = new Swiper('.swiper-container', {
-    slidesPerView: 1,
-    spaceBetween: 10,
-    loop: true,
-    autoplay: { delay: 2500, disableOnInteraction: false },
-    speed: 3000,
-    effect: 'cube',
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    pagination: { el: '.swiper-pagination', clickable: true },
-  });
-</script>
-
-<!-- ========================= PRODUCTS SECTION ========================= -->
-<section class="section-products py-3">
+<!-- PRODUCTS -->
+<section class="section-products py-4">
   <div class="container">
     <div class="row g-3">
       {% for product in products %}
-        <div class="col-6 col-sm-6 col-md-4"> <!-- Mobilde 2 sütun -->
-          <div class="card card-product-grid h-100 shadow-sm product-card">
-            <a href="{{ product.get_url }}" class="img-wrap">
-              <img src="{{ product.images.url }}" alt="{{ product.product_name }}" class="img-fluid card-img-top" style="height:150px; object-fit:cover; border-radius:5px;">
-            </a>
-            <figcaption class="info-wrap p-2">
-              <h5 class="title mb-1"><a href="{{ product.get_url }}" class="text-dark">{{ product.product_name }}</a></h5>
-              <div class="d-flex gap-2 mt-2 flex-wrap">
-                <a href="{% url 'add_cart' product.id %}" class="btn btn-sm btn-danger btn-hover flex-fill">Add to contract</a>
-                <a href="{{ product.get_url }}" class="btn btn-sm btn-outline-dark btn-hover flex-fill">View Detail</a>
-              </div>
-            </figcaption>
+      <div class="col-6 col-md-4">
+        <div class="product-card">
+          <a href="{{ product.get_url }}" class="img-wrap">
+            <img src="{{ product.images.url }}" alt="{{ product.product_name }}">
+          </a>
+
+          <div class="info-wrap">
+            <h5 class="title">
+              <a href="{{ product.get_url }}">{{ product.product_name }}</a>
+            </h5>
+
+            <div class="d-flex gap-2 mt-2">
+              <a href="{% url 'add_cart' product.id %}" class="btn btn-danger btn-sm w-100">Add to contract</a>
+              <a href="{{ product.get_url }}" class="btn btn-outline-dark btn-sm w-100">View Detail</a>
+            </div>
           </div>
         </div>
+      </div>
       {% endfor %}
     </div>
   </div>
 </section>
 
-<!-- ========================= CUSTOM STYLES ========================= -->
 <style>
-  /* Hover efekti ürün kartı */
-  .product-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
+.banner-box {
+  height: 400px;
+  padding: 20px;
+  background: linear-gradient(to bottom right, rgb(123,125,245), rgb(221,130,240));
+}
 
-  /* Buton hover animasyonu */
-  .btn-hover {
-    transition: all 0.3s ease;
-  }
-  .btn-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  }
+.slider-box {
+  height: 400px;
+}
 
-  /* Responsive ayarlar */
-  @media (max-width: 576px) {
-    .intro-banner-wrap h4 { font-size: 1.2rem; }
-    .intro-banner-wrap p.lead { font-size: 0.9rem; }
-    .swiper-container { height: 250px !important; }
-    .card-product-grid img { height:120px !important; }
-  }
+.slider-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.product-card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.18);
+}
+
+.product-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  transition: 0.4s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.08);
+}
+
+.info-wrap {
+  padding: 12px;
+  text-align: center;
+}
+
+.title a {
+  color: #000;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (max-width: 576px) {
+  .banner-box { height: 250px; }
+  .slider-box { height: 250px; }
+  .product-card img { height: 180px; }
+}
 </style>
 
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  new Swiper('.swiper-container', {
+    effect: 'cube',
+    grabCursor: true,
+    loop: true,
+
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false
+    },
+
+    speed: 1500,
+
+    cubeEffect: {
+      shadow: true,
+      slideShadows: true,
+      shadowOffset: 20,
+      shadowScale: 0.94,
+    },
+
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    }
+  });
+});
+</script>
+{% endblock %}
