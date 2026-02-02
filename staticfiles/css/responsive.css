@@ -1,120 +1,119 @@
+/* =====================
+   BASE
+===================== */
+
 .mobile-block {
   display: none;
 }
 
-@media (max-width: 1200px) {
-  /* tablet devices */
+.mobile-hide {
+  display: block;
 }
+
+/* Cart badge */
+.cart-icon {
+  position: relative;
+  color: #000;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  font-size: 12px;
+  padding: 3px 6px;
+}
+
+
+/* =====================
+   TABLET (<= 992px)
+===================== */
+
 @media (max-width: 992px) {
-  /* small tablet devices */
+
   .slider-main .item-slide {
     height: auto;
   }
 
+  .slider-box {
+    height: 300px;
+  }
+
   .table-shopping-cart tr td:first-child {
-    width: 250px;
+    width: 220px;
   }
-  .table-shopping-cart .itemside .info {
-    padding: 0;
-  }
+
   .table-shopping-cart .itemside .aside {
     display: none;
   }
+
+  .product-card img {
+    height: 220px;
+    object-fit: cover;
+  }
 }
-@media all and (max-width: 768px) {
-  /* mobile devices */
+
+
+/* =====================
+   MOBILE (<= 768px)
+===================== */
+
+@media (max-width: 768px) {
+
+  /* Navbar */
   .mobile-block {
-    display: block;
+    display: flex;
   }
 
   .mobile-hide {
     display: none;
   }
 
-  .section-header .logo {
-    max-height: 40px;
-    width: auto;
-  }
-  .section-header .header-main .brand-wrap {
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
-  .section-header .header-main .search {
-    margin-bottom: 1rem;
-  }
-
-  .item-feature {
-    margin-bottom: 20px;
-  }
-
-  .mobile-order-first {
-    order: -1;
-  }
-
-  .mobile-order-1 {
-    order: 1;
-  }
-
-  .mobile-order-2 {
-    order: 2;
-  }
-
-  .mobile-order-3 {
-    order: 3;
-  }
-
-  .mobile-py {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  .mobile-pb {
-    padding-bottom: 20px;
-  }
-
-  .mobile-pt {
-    padding-top: 20px;
-  }
-
-  .navbar-expand .navbar-collapse {
-    flex-direction: column;
-  }
-}
- /* ================= MOBILE FIX FOR BANNER & SLIDER ================= */
-@media (max-width: 576px) {
-  /* Banner kutusu otomatik yükseklik */
-  .banner-box, .intro-banner-wrap {
-    height: auto !important;        /* içerik yüksekliğine göre */
-    padding: 15px;
-    margin-bottom: 15px;            /* slider ile boşluk */
+  .mobile-navbar {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    background: #fff;
+  }
+
+  .section-header .search,
+  .category-wrap {
+    display: none;
+  }
+
+  /* Banner */
+  .banner-box,
+  .intro-banner-wrap {
+    height: auto !important;
+    padding: 15px;
+    margin-bottom: 15px;
     text-align: center;
   }
 
-  .banner-box h4, .intro-banner-wrap h4 {
+  .banner-box h4,
+  .intro-banner-wrap h4 {
     font-size: 1.1rem;
   }
 
-  .banner-box p.lead, .intro-banner-wrap p.lead {
+  .banner-box p.lead,
+  .intro-banner-wrap p.lead {
     font-size: 0.9rem;
-    margin-bottom: 6px;
   }
 
-  /* Butonlar alt alta ve arada boşluk */
-  .banner-box .d-flex, .intro-banner-wrap .d-flex {
+  .banner-box .d-flex,
+  .intro-banner-wrap .d-flex {
     flex-direction: column;
     gap: 10px;
-    margin-top: 10px;
   }
 
-  .banner-box .btn, .intro-banner-wrap .btn {
+  .banner-box .btn,
+  .intro-banner-wrap .btn {
     width: 100%;
-    margin-bottom: 0;
   }
 
-  /* Slider yüksekliği mobilde biraz küçült */
+  /* Slider */
   .slider-box {
     height: 220px !important;
     border-radius: 12px;
@@ -123,9 +122,6 @@
   .slider-box img {
     object-fit: cover;
   }
-}
-
- 
 
   /* Products */
   .product-card img {
@@ -140,20 +136,21 @@
   .title {
     font-size: 0.9rem;
   }
+}
 
 
+/* =====================
+   SMALL MOBILE (<= 576px)
+===================== */
 
-/* ================= TABLET ================= */
-@media (max-width: 992px) {
+@media (max-width: 576px) {
 
   .slider-box {
-    height: 300px;
+    height: 200px !important;
   }
 
   .product-card img {
-    height: 220px;
+    height: 160px !important;
   }
 
 }
-
-/*# sourceMappingURL=responsive.css.map */
