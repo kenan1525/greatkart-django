@@ -29,7 +29,7 @@
     </div>
 
     <a href="{% url 'cart' %}" class="cart-icon">
-      <i class="fa fa-shopping-cart fa-lg"></i>
+      <i class="fa fa-list fa-lg"></i>
       <span class="badge badge-danger cart-badge">{{ cart_count }}</span>
     </a>
   </div>
@@ -89,8 +89,10 @@
         {% endif %}
 
         <a href="{% url 'cart' %}" class="cart-icon ml-3">
-          <i class="fa fa-shopping-cart fa-lg"></i>
-          <span class="badge badge-danger cart-badge">{{ cart_count }}</span>
+          <i class="fa fa-list fa-lg"></i>
+          <span class="badge badge-danger cart-badge">{{ cart_count }}
+            
+          </span>
         </a>
       </div>
 
