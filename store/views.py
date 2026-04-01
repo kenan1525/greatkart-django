@@ -6,6 +6,10 @@ from carts.models import CartItem
 from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from carts.utils import _cart_id
+from django.http import JsonResponse
+
+def ping(request):
+    return JsonResponse({"status": "ok", "message": "Site is alive"})
 
 
 
