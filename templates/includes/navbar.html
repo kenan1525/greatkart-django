@@ -45,8 +45,11 @@
 
   <!-- Slide-Down Menu -->
   <nav class="mobile-menu-drawer" id="mobileMenuDrawer">
+    <div class="mobile-lang-toggle text-center border-bottom py-2" style="font-size: 0.8rem; background: #f8fafc;">
+      <span style="color: #6b7280; cursor: pointer;">TR</span> | <strong style="color: #1e4fff;">EN</strong> | <span style="color: #6b7280; cursor: pointer;">FR</span> | <span style="color: #6b7280; cursor: pointer;">AR</span>
+    </div>
     <ul class="mobile-nav-list">
-      <li><a href="{% url 'store' %}"><i class="fa fa-th-large mr-2"></i>Tüm Ürünler</a></li>
+      <li><a href="{% url 'store' %}"><i class="fa fa-th-large mr-2"></i>All Products</a></li>
       {% for category in links %}
         <li><a href="{{ category.get_url }}"><i class="fa fa-tag mr-2"></i>{{ category.category_name }}</a></li>
       {% endfor %}
@@ -112,6 +115,10 @@
 
       <!-- USER & CART -->
       <div class="col-lg-3 text-right">
+        <div class="lang-selector mb-1" style="font-size: 0.75rem; color: #6b7280; letter-spacing: 1px;">
+          <span style="cursor:pointer;">TR</span> | <strong style="color: #1e4fff;">EN</strong> | <span style="cursor:pointer;">FR</span> | <span style="cursor:pointer;">AR</span>
+        </div>
+        <div class="user-actions">
         {% if user.is_authenticated %}
           <span class="mr-2">Welcome {{ user.first_name }}</span>
           <a href="#" class="mr-2">Dashboard</a>
@@ -125,6 +132,7 @@
           <i class="fa fa-list fa-lg"></i>
           <span class="badge badge-danger" style="position: absolute; top: -10px; right: -10px; border-radius: 50%; font-size: 0.75rem;">{{ cart_count }}</span>
         </a>
+        </div>
       </div>
 
     </div>
