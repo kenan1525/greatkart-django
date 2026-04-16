@@ -72,6 +72,15 @@
 </div>
 
 
+<!-- Top Bar (Desktop Only) -->
+<div class="top-bar mobile-hide border-bottom" style="background: #f8fafc; font-size: 0.7rem; py-1;">
+  <div class="container text-right py-1">
+    <span style="color: #6b7280; letter-spacing: 1px;">
+      <span style="cursor:pointer;">TR</span> | <strong style="color: #1e4fff;">EN</strong> | <span style="cursor:pointer;">FR</span> | <span style="cursor:pointer;">AR</span>
+    </span>
+  </div>
+</div>
+
 <!-- ============ DESKTOP NAVBAR ============ -->
 <section class="header-main border-bottom mobile-hide">
   <div class="container">
@@ -115,9 +124,6 @@
 
       <!-- USER & CART -->
       <div class="col-lg-3 text-right">
-        <div class="lang-selector mb-1" style="font-size: 0.75rem; color: #6b7280; letter-spacing: 1px;">
-          <span style="cursor:pointer;">TR</span> | <strong style="color: #1e4fff;">EN</strong> | <span style="cursor:pointer;">FR</span> | <span style="cursor:pointer;">AR</span>
-        </div>
         <div class="user-actions">
         {% if user.is_authenticated %}
           <span class="mr-2">Welcome {{ user.first_name }}</span>
