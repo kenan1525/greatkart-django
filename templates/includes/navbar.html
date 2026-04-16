@@ -3,36 +3,68 @@
 
 <!-- ============ MOBILE NAVBAR ============ -->
 <div class="mobile-navbar mobile-block">
-  <a href="{% url 'home' %}" class="brand-wrap">
-    <strong><span style="color:#1e4fff">DEV</span><span style="color:#555">TÜRKS</span></strong>
-  </a>
 
-  <div class="d-flex align-items-center">
-    <div class="dropdown mr-3">
-      <button class="btn btn-primary" data-toggle="dropdown">
-        <i class="fa fa-bars"></i>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="{% url 'store' %}">Store</a>
-        {% for category in links %}
-          <a class="dropdown-item" href="{{ category.get_url }}">{{ category.category_name }}</a>
-        {% endfor %}
-        <div class="dropdown-divider"></div>
-        {% if user.is_authenticated %}
-          <a class="dropdown-item" href="#">Dashboard</a>
-          <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-        {% else %}
-          <a class="dropdown-item" href="{% url 'login' %}">Login</a>
-          <a class="dropdown-item" href="{% url 'register' %}">Register</a>
-        {% endif %}
-      </div>
-    </div>
+  <!-- Top Row: Icons + Logo + Icons -->
+  <div class="mobile-nav-top">
+    <!-- Left: Hamburger -->
+    <button class="mobile-icon-btn" id="mobileMenuToggle" aria-label="Menü">
+      <i class="fa fa-bars"></i>
+    </button>
 
-    <a href="{% url 'cart' %}" class="cart-icon">
-      <i class="fa fa-list fa-lg"></i>
-      <span class="badge badge-danger cart-badge">{{ cart_count }}</span>
+    <!-- Center: Logo -->
+    <a href="{% url 'home' %}" class="brand-wrap text-center">
+      <strong style="font-size: 1.4rem;"><span style="color:#1e4fff">DEV</span><span style="color:#555">TÜRKS</span></strong>
     </a>
+
+    <!-- Right: Actions -->
+    <div class="mobile-nav-actions">
+      <!-- Search Toggle -->
+      <button class="mobile-icon-btn" id="mobileSearchToggle" aria-label="Arama">
+        <i class="fa fa-search"></i>
+      </button>
+
+      <!-- Contract List (Cart) -->
+      <a href="{% url 'cart' %}" class="mobile-icon-btn cart-icon" aria-label="Liste">
+        <i class="fa fa-list"></i>
+        <span class="mobile-badge">{{ cart_count }}</span>
+      </a>
+    </div>
   </div>
+
+  <!-- Search Bar (collapsible) -->
+  <div class="mobile-search-bar" id="mobileSearchBar">
+    <form action="{% url 'search' %}" method="GET">
+      <div class="mobile-search-inner">
+        <i class="fa fa-search mobile-search-icon"></i>
+        <input type="text" name="keyword" placeholder="Ürün ara..." autocomplete="off" class="mobile-search-input">
+        <button type="submit" class="mobile-search-submit">Ara</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Slide-Down Menu -->
+  <nav class="mobile-menu-drawer" id="mobileMenuDrawer">
+    <ul class="mobile-nav-list">
+      <li><a href="{% url 'store' %}"><i class="fa fa-th-large mr-2"></i>Tüm Ürünler</a></li>
+      {% for category in links %}
+        <li><a href="{{ category.get_url }}"><i class="fa fa-tag mr-2"></i>{{ category.category_name }}</a></li>
+      {% endfor %}
+    </ul>
+    <div class="mobile-nav-divider"></div>
+    <ul class="mobile-nav-list">
+      {% if user.is_authenticated %}
+        <li class="mobile-user-greeting">
+          <i class="fa fa-user-circle mr-2"></i> Hoş geldin, <strong>{{ user.first_name }}</strong>
+        </li>
+        <li><a href="#"><i class="fa fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+        <li><a href="{% url 'logout' %}" class="text-danger"><i class="fa fa-sign-out-alt mr-2"></i>Çıkış Yap</a></li>
+      {% else %}
+        <li><a href="{% url 'login' %}"><i class="fa fa-sign-in-alt mr-2"></i>Giriş Yap</a></li>
+        <li><a href="{% url 'register' %}"><i class="fa fa-user-plus mr-2"></i>Kayıt Ol</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+
 </div>
 
 
@@ -101,3 +133,46 @@
 </section>
 
 </header>
+
+<script>
+(function () {
+  var searchToggle = document.getElementById('mobileSearchToggle');
+  var searchBar    = document.getElementById('mobileSearchBar');
+  var menuToggle   = document.getElementById('mobileMenuToggle');
+  var menuDrawer   = document.getElementById('mobileMenuDrawer');
+
+  if (searchToggle && searchBar) {
+    searchToggle.addEventListener('click', function () {
+      var open = searchBar.classList.toggle('open');
+      menuDrawer.classList.remove('open');
+      if (open) {
+        searchBar.querySelector('input').focus();
+      }
+    });
+  }
+
+  if (menuToggle && menuDrawer) {
+    menuToggle.addEventListener('click', function () {
+      menuDrawer.classList.toggle('open');
+      searchBar.classList.remove('open');
+      // Toggle icon
+      var icon = menuToggle.querySelector('i');
+      if (menuDrawer.classList.contains('open')) {
+        icon.className = 'fa fa-times';
+      } else {
+        icon.className = 'fa fa-bars';
+      }
+    });
+  }
+
+  // Close menu when a nav link is clicked
+  document.querySelectorAll('.mobile-nav-list a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      menuDrawer.classList.remove('open');
+      searchBar.classList.remove('open');
+      var icon = menuToggle.querySelector('i');
+      icon.className = 'fa fa-bars';
+    });
+  });
+})();
+</script>
