@@ -6,15 +6,16 @@
 
   <!-- Top Row: Icons + Logo + Icons -->
   <div class="mobile-nav-top">
-    <!-- Left: Hamburger -->
-    <button class="mobile-icon-btn" id="mobileMenuToggle" aria-label="Menü">
-      <i class="fa fa-bars"></i>
-    </button>
+    <!-- Left: Hamburger + Logo -->
+    <div class="mobile-nav-left">
+      <button class="mobile-icon-btn" id="mobileMenuToggle" aria-label="Menü">
+        <i class="fa fa-bars"></i>
+      </button>
 
-    <!-- Center: Logo -->
-    <a href="{% url 'home' %}" class="brand-wrap text-center">
-      <strong style="font-size: 1.4rem;"><span style="color:#1e4fff">DEV</span><span style="color:#555">TÜRKS</span></strong>
-    </a>
+      <a href="{% url 'home' %}" class="brand-wrap">
+        <strong style="font-size: 1.3rem;"><span style="color:#1e4fff">DEV</span><span style="color:#555">TÜRKS</span></strong>
+      </a>
+    </div>
 
     <!-- Right: Actions -->
     <div class="mobile-nav-actions">

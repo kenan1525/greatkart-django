@@ -30,6 +30,9 @@
   }
 }
 @media all and (max-width: 768px) {
+  body {
+    padding-top: 80px;
+  }
   /* mobile devices */
   .mobile-block {
     display: block;
@@ -62,12 +65,18 @@
     padding: 10px 16px;
   }
 
+  /* Group hamburger + logo on left */
+  .mobile-nav-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .mobile-navbar .brand-wrap {
-    font-size: 1.25rem;
-    font-weight: 700;
     text-decoration: none;
     color: #212529;
     letter-spacing: -0.3px;
+    line-height: 1;
   }
 
   /* ── Icon Buttons Row ── */
