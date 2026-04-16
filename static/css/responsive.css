@@ -31,7 +31,7 @@
 }
 @media all and (max-width: 768px) {
   body {
-    padding-top: 80px;
+    padding-top: 100px;
   }
   /* mobile devices */
   .mobile-block {

@@ -125,8 +125,15 @@
 }
 
 @media (max-width: 576px) {
-  .banner-box { height: 250px; }
-  .slider-box { height: 250px; }
+  .banner-box { 
+    height: auto; 
+    min-height: 350px; 
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .slider-box { height: 320px; }
   .product-card img { height: 180px; }
 }
 </style>
